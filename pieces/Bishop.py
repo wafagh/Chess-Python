@@ -11,3 +11,40 @@ class Bishop(Piece):
         self.img = pygame.transform.scale(self.img, (board.tile_width - 20, board.tile_height - 20))
 
         self.notation = 'B'
+
+
+    def get_possible_moves(self,board):
+
+        moves=[]
+
+        moves_n_e=[]
+        for i in range(1,8):
+            if self.x +i >7 or self.y+i>7 :
+                break
+            moves_n_e.append(board.get_square_from_pos((self.x+i,self.y+i)))
+            
+        moves.append(moves_n_e)
+
+        moves_n_w=[]
+        for i in range(1,8):
+            if self.x +i >7 or self.y-i< 0:
+                break
+            moves_s_w.append(board.get_square_from_pos((self.x+i,self.y)))
+        moves.append(moves_n_w)
+
+
+        moves_s_w=[]
+        for i in range(1,8):
+            if self.x -i <0 or self.y-i< 0:
+                break
+            moves_s_w.append(board.get_square_from_pos((self.x+i,self.y)))
+        moves.append(moves_s_w)
+
+        moves_s_e=[]
+        for i in range(1,8):
+            if self.x -i <0 or self.y+i> 7:
+                break
+            moves_s_e.append(board.get_square_from_pos((self.x+i,self.y)))
+        moves.append(moves_s_e)
+    
+        return moves

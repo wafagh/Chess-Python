@@ -11,3 +11,43 @@ class Pawn(Piece):
         self.img = pygame.transform.scale(self.img, (board.tile_width - 20, board.tile_height - 20))
 
         self.notation = 'P'
+
+
+    def get_possible_moves(self,board):
+
+        move=[]
+        if self.color=='white':
+            if self.x-1>=0:
+                move.append(board.get_square_from_pos((self.x-1,self.y)))
+            if self.has_moved==False:
+                move.append(board.get_square_from_pos((self.x-2,self.y)))
+
+            if self.x-1>=0 and self.y-1>=0:
+                square=board.get_square_from_pos((self.x-1,self.y-1))
+                if square.piece!=None:
+                    if square.piece.color=='black':
+                        move.append(board.get_square_from_pos((self.x-1,self.y-1)))
+            if self.x-1>=0 and self.y+1<=7:
+                square=board.get_square_from_pos((self.x-1,self.y+1))
+                if square.piece!=None:
+                    if square.piece.color=='black':
+                        move.append(board.get_square_from_pos((self.x-1,self.y+1)))
+
+        elif self.color=='black':
+            if self.x+1<=7:
+                move.append(board.get_square_from_pos((self.x+1,self.y)))
+            if self.has_moved==False:
+                move.append(board.get_square_from_pos((self.x+2,self.y)))
+
+            if self.x+1<=7 and self.y-1>=0:
+                square=board.get_square_from_pos((self.x+1,self.y-1))
+                if square.piece!=None:
+                    if square.piece.color=='white':
+                        move.append(board.get_square_from_pos((self.x+1,self.y-1)))
+            if self.x+1<=7 and self.y+1<=7:
+                square=board.get_square_from_pos((self.x+1,self.y+1))
+                if square.piece!=None:
+                    if square.piece.color=='white':
+                        move.append(board.get_square_from_pos((self.x+1,self.y+1)))
+
+        return move
