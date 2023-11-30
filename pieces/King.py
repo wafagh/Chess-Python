@@ -34,31 +34,35 @@ class King(Piece):
             moves.append(board.get_square_from_pos((self.x-1,self.y-1)))
         
         if self.has_moved ==False:
+            black_moves,white_moves=board.get_moves()
+
             if self.color=='white':
                 kingside_rook=board.get_piece_from_pos((7,7))
                 queenside_rook=board.get_piece_from_pos((0,7))
-
-                if kingside_rook!=None:
-                    if kingside_rook.has_moved==False:
-                        if board.get_piece_from_pos((6,7))==None and board.get_piece_from_pos((5,7))==None:
-                            moves.append(board.get_square_from_pos((6,7)))
-                if queenside_rook!=None:
-                    if queenside_rook.has_moved==False:
-                        if [board.get_piece_from_pos((i,7))for i in range(1,4)]==[None,None,None]:
-                            moves.append(board.get_square_from_pos((2,7)))
+                if [board.get_square_from_pos((i,7)) for i in range(4,7)] not in enumerate(black_moves) :
+                    if kingside_rook!=None:
+                        if kingside_rook.has_moved==False:
+                            if board.get_piece_from_pos((6,7))==None and board.get_piece_from_pos((5,7))==None:
+                                moves.append(board.get_square_from_pos((6,7)))
+                if [board.get_square_from_pos((i,7)) for i in range(1,5)] not in enumerate(black_moves) :
+                    if queenside_rook!=None:
+                        if queenside_rook.has_moved==False:
+                            if [board.get_piece_from_pos((i,7))for i in range(1,4)]==[None,None,None]:
+                                moves.append(board.get_square_from_pos((2,7)))
 
             elif self.color=='black':
                 kingside_rook=board.get_piece_from_pos((7,0))
                 queenside_rook=board.get_piece_from_pos((0,0))
-
-                if kingside_rook!=None:
-                    if kingside_rook.has_moved==False:
-                        if board.get_piece_from_pos((6,0))==None and board.get_piece_from_pos((5,0))==None:
-                            moves.append(board.get_square_from_pos((6,0)))
-                if queenside_rook!=None:
-                    if queenside_rook.has_moved==False:
-                        if [board.get_piece_from_pos((i,0))for i in range(1,4)]==[None,None,None]:
-                            moves.append(board.get_square_from_pos((2,0)))
+                if [board.get_square_from_pos((i,0)) for i in range(4,7)] not in enumerate(white_moves) :
+                    if kingside_rook!=None:
+                        if kingside_rook.has_moved==False:
+                            if board.get_piece_from_pos((6,0))==None and board.get_piece_from_pos((5,0))==None:
+                                moves.append(board.get_square_from_pos((6,0)))
+                if [board.get_square_from_pos((i,0)) for i in range(1,5)] not in enumerate(white_moves) :                
+                    if queenside_rook!=None:
+                        if queenside_rook.has_moved==False:
+                            if [board.get_piece_from_pos((i,0))for i in range(1,4)]==[None,None,None]:
+                                moves.append(board.get_square_from_pos((2,0)))
         
         return moves
     

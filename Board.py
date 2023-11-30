@@ -35,7 +35,22 @@ class Board:
 
                 self.setup_board()
         
-        
+        def get_moves(self,board):
+            black_moves=[]
+            white_moves=[]
+            for square in board.squares:
+                if square.piece!=None:
+                    if square.piece.color=='white':
+                        v_moves,black_check_squares,white_check_squares=square.piece.validate_moves(board)
+                        white_moves.append(v_moves)
+                        black_check_squares.append(black_check_squares)
+                    elif square.piece.color=='black':
+                        v_moves,black_check_squares,white_check_squares=square.piece.validate_moves(board)
+                        black_moves.append(v_moves)
+                        white_check_squares(white_check_squares)
+            
+
+            return black_moves,white_moves,white_check_squares,black_check_squares
         
         
         def generate_squares(self):

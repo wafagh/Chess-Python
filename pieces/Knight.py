@@ -43,18 +43,4 @@ class Knight(Piece):
 
         return moves
     
-    def validate_moves(self,board):
-        v_moves=[]
-        for move in self.get_possible_moves(board):
-            if self.color=='white':
-                if move.piece!=None:
-                    if move.piece.color=='black':
-                        v_moves.append(move)
-                else:
-                    v_moves.append(move)
-            elif self.color=='black':
-                if move.piece!=None:
-                    if move.piece.color=='white':
-                        v_moves.append(move)
-                else:
-                    v_moves.append(move)
+    
