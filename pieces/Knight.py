@@ -16,7 +16,7 @@ class Knight(Piece):
 
     def get_possible_moves(self,board):
         moves=[]
-
+        p_moves=[]
         if self.x +2 <=7:
             if self.y +1 <=7:
                 moves.append(board.get_square_from_pos((self.x+2,self.y+1)))
@@ -41,6 +41,12 @@ class Knight(Piece):
             if self.x-1 >=0:
                 moves.append(board.get_square_from_pos((self.x-1,self.y-2)))
 
-        return moves
+        for square in moves:
+            if square.piece!=None:
+                if square.piece.color==self.color:
+                    moves.remove(square)
+        p_moves.append(moves)
+        #print(p_moves)
+        return p_moves
     
     

@@ -16,11 +16,12 @@ class Pawn(Piece):
     def get_possible_moves(self,board):
 
         moves=[]
+        p_moves=[]
         if self.color=='white':
-            if self.x-1>=0:
-                moves.append(board.get_square_from_pos((self.x-1,self.y)))
+            if self.y-1>=0:
+                moves.append(board.get_square_from_pos((self.x,self.y-1)))
             if self.has_moved==False:
-                moves.append(board.get_square_from_pos((self.x-2,self.y)))
+                moves.append(board.get_square_from_pos((self.x,self.y-2)))
 
             if self.x-1>=0 and self.y-1>=0:
                 square=board.get_square_from_pos((self.x-1,self.y-1))
@@ -34,10 +35,10 @@ class Pawn(Piece):
                         moves.append(board.get_square_from_pos((self.x-1,self.y+1)))
 
         elif self.color=='black':
-            if self.x+1<=7:
-                moves.append(board.get_square_from_pos((self.x+1,self.y)))
+            if self.y+1<=7:
+                moves.append(board.get_square_from_pos((self.x,self.y+1)))
             if self.has_moved==False:
-                moves.append(board.get_square_from_pos((self.x+2,self.y)))
+                moves.append(board.get_square_from_pos((self.x,self.y+2)))
 
             if self.x+1<=7 and self.y-1>=0:
                 square=board.get_square_from_pos((self.x+1,self.y-1))
@@ -49,7 +50,7 @@ class Pawn(Piece):
                 if square.piece!=None:
                     if square.piece.color=='white':
                         moves.append(board.get_square_from_pos((self.x+1,self.y+1)))
-
-        return moves
+        p_moves.append(moves)
+        return p_moves
     
     

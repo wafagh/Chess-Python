@@ -15,7 +15,7 @@ class King(Piece):
     def get_possible_moves(self,board):
 
         moves=[]
-    
+        p_moves=[]
         if self.x +1 <=7 :
             moves.append(board.get_square_from_pos((self.x+1,self.y)))
         if self.x-1>=0:
@@ -34,7 +34,7 @@ class King(Piece):
             moves.append(board.get_square_from_pos((self.x-1,self.y-1)))
         
         if self.has_moved ==False:
-            black_moves,white_moves=board.get_moves()
+            black_moves,white_moves,white_check_squares,black_check_squares=board.get_moves(board)
 
             if self.color=='white':
                 kingside_rook=board.get_piece_from_pos((7,7))
@@ -64,7 +64,8 @@ class King(Piece):
                             if [board.get_piece_from_pos((i,0))for i in range(1,4)]==[None,None,None]:
                                 moves.append(board.get_square_from_pos((2,0)))
         
-        return moves
+        p_moves.append(moves)
+        return p_moves
     
     
 
