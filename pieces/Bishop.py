@@ -29,7 +29,7 @@ class Bishop(Piece):
         for i in range(1,8):
             if self.x +i >7 or self.y-i< 0:
                 break
-            moves_n_w.append(board.get_square_from_pos((self.x+i,self.y)))
+            moves_n_w.append(board.get_square_from_pos((self.x+i,self.y-i)))
         moves.append(moves_n_w)
 
 
@@ -37,14 +37,14 @@ class Bishop(Piece):
         for i in range(1,8):
             if self.x -i <0 or self.y-i< 0:
                 break
-            moves_s_w.append(board.get_square_from_pos((self.x+i,self.y)))
+            moves_s_w.append(board.get_square_from_pos((self.x-i,self.y-i)))
         moves.append(moves_s_w)
 
         moves_s_e=[]
         for i in range(1,8):
             if self.x -i <0 or self.y+i> 7:
                 break
-            moves_s_e.append(board.get_square_from_pos((self.x+i,self.y)))
+            moves_s_e.append(board.get_square_from_pos((self.x-i,self.y+i)))
         moves.append(moves_s_e)
     
         return moves

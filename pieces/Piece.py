@@ -15,13 +15,20 @@ class Piece:
         def move(self,board,square,force=False):
             for square1 in board.squares:
                 square1.highlight=False
+
             black_moves,white_moves,white_check_moves,black_check_moves=board.get_moves(board)
+            v_moves,b_c_moves,w_c_moves=self.validate_moves(board)
+            check_move=False
+            for move in v_moves:
+                if square==move:
+                    check_move=True
+                    
             if self.color=='white':
-                v_moves,b_c_moves,w_c_moves=self.validate_moves(board)
                 if white_check_moves:
                     print("im here",white_check_moves)
-                    if [square in v_moves] and  [square in white_check_moves]:
+                    if check_move and  [square in white_check_moves]:
                         print("now im here")
+                        print(v_moves)
                         prev_square=board.get_square_from_pos((self.pos))
                         self.pos,self.y,self.x=square.pos,square.y,square.x
                         prev_square.piece=None
@@ -36,7 +43,7 @@ class Piece:
                     print("ok i m here")
                     print(square)
                     print(v_moves)
-                    if [square in v_moves] or force:
+                    if check_move or force:
                         print("now im h er e")
                         prev_square=board.get_square_from_pos((self.pos))
                         self.pos,self.y,self.x=square.pos,square.y,square.x
@@ -46,7 +53,7 @@ class Piece:
                         self.has_moved=True
                         if self.notation=='K':
                             if prev_square.x - self.x==2:
-                                rook=board.get_piece_from_pos((7,self.y))
+                                rook=board.get_piece_from_pos((0,self.y))
                                 rook.move(board,board.get_square_from_pos((3,self.y)),force=True)
                             elif prev_square.x-self.x==-2:
                                 rook=board.get_piece_from_pos((7,self.y))
@@ -57,14 +64,11 @@ class Piece:
                         return False
 
 
-                    
-
 
             elif self.color=='black':
-                v_moves,b_c_moves,w_c_moves=self.validate_moves(board)
                 if black_check_moves:
 
-                    if [square in v_moves] and  [square in black_check_moves]:
+                    if check_move and  [square in black_check_moves]:
                         prev_square=board.get_square_from_pos((self.pos))
                         self.pos,self.y,self.x=square.pos,square.y,square.x
                         prev_square.piece=None
@@ -74,7 +78,7 @@ class Piece:
                         return True
                 else:
                      
-                    if [square in v_moves] or force:
+                    if check_move or force:
                         prev_square=board.get_square_from_pos((self.pos))
                         self.pos,self.y,self.x=square.pos,square.y,square.x
                         prev_square.piece=None
@@ -83,7 +87,7 @@ class Piece:
                         self.has_moved=True
                         if self.notation=='K':
                             if prev_square.x - self.x==2:
-                                rook=board.get_piece_from_pos((7,self.y))
+                                rook=board.get_piece_from_pos((0,self.y))
                                 rook.move(board,board.get_square_from_pos((3,self.y)),force=True)
                             elif prev_square.x-self.x==-2:
                                 rook=board.get_piece_from_pos((7,self.y))
@@ -95,10 +99,6 @@ class Piece:
                         return False
 
                     
-                     
-
-
-
 
         def validate_moves(self,board):
             v_moves=[]
@@ -113,6 +113,7 @@ class Piece:
                                     v_moves.append(square)
                                     if square.piece.notation=='K':
                                         black_check_moves.append(square)
+                                    break
                                 else:
                                     break
                             else:
@@ -123,6 +124,7 @@ class Piece:
                                     v_moves.append(square)
                                     if square.piece.notation=='K':
                                         white_check_moves.append(square)
+                                    break
                                 else:
                                     break
                             else:

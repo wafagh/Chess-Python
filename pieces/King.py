@@ -39,12 +39,12 @@ class King(Piece):
             if self.color=='white':
                 kingside_rook=board.get_piece_from_pos((7,7))
                 queenside_rook=board.get_piece_from_pos((0,7))
-                if [board.get_square_from_pos((i,7)) for i in range(4,7)] not in enumerate(black_moves) :
+                if not self.check_move(black_moves,board,4,7,7):
                     if kingside_rook!=None:
                         if kingside_rook.has_moved==False:
                             if board.get_piece_from_pos((6,7))==None and board.get_piece_from_pos((5,7))==None:
                                 moves.append(board.get_square_from_pos((6,7)))
-                if [board.get_square_from_pos((i,7)) for i in range(1,5)] not in enumerate(black_moves) :
+                if not self.check_move(black_moves,board,1,5,7):
                     if queenside_rook!=None:
                         if queenside_rook.has_moved==False:
                             if [board.get_piece_from_pos((i,7))for i in range(1,4)]==[None,None,None]:
@@ -53,12 +53,12 @@ class King(Piece):
             elif self.color=='black':
                 kingside_rook=board.get_piece_from_pos((7,0))
                 queenside_rook=board.get_piece_from_pos((0,0))
-                if [board.get_square_from_pos((i,0)) for i in range(4,7)] not in enumerate(white_moves) :
+                if not self.check_move(white_moves,board,4,7,0):
                     if kingside_rook!=None:
                         if kingside_rook.has_moved==False:
                             if board.get_piece_from_pos((6,0))==None and board.get_piece_from_pos((5,0))==None:
                                 moves.append(board.get_square_from_pos((6,0)))
-                if [board.get_square_from_pos((i,0)) for i in range(1,5)] not in enumerate(white_moves) :                
+                if not self.check_move(white_moves,board,1,5,0):                
                     if queenside_rook!=None:
                         if queenside_rook.has_moved==False:
                             if [board.get_piece_from_pos((i,0))for i in range(1,4)]==[None,None,None]:
@@ -72,3 +72,10 @@ class King(Piece):
                 
 
 
+    def check_move(self,moves,board,i,j,y):
+        for move in moves:
+            for square in move:
+                for z in range(i,j):
+                    if board.get_square_from_pos((z,y))==square:
+                        return False
+        return True

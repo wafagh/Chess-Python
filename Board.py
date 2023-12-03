@@ -38,20 +38,27 @@ class Board:
         def get_moves(self,board):
             black_moves=[]
             white_moves=[]
+            black_check_squares=[]
+            white_check_squares=[]
             for square in board.squares:
                 if square.piece!=None:
                     if square.piece.notation=='K':
                          continue
                     if square.piece.color=='white':
-                        v_moves,black_check_squares,white_check_squares=square.piece.validate_moves(board)
+                        v_moves,black_check_squares1,white_check_squares1=square.piece.validate_moves(board)
                         white_moves.append(v_moves)
-                        black_check_squares.append(black_check_squares)
+                        if len(black_check_squares1)==0:
+                              continue
+                        else:
+                              black_check_squares.append(black_check_squares1)
                     elif square.piece.color=='black':
-                        v_moves,black_check_squares,white_check_squares=square.piece.validate_moves(board)
+                        v_moves,black_check_squares1,white_check_squares1=square.piece.validate_moves(board)
                         black_moves.append(v_moves)
-                        white_check_squares.append(white_check_squares)
+                        if len(white_check_squares1)==0:
+                             continue
+                        else:
+                              white_check_squares.append(white_check_squares1)
             
-
             return black_moves,white_moves,white_check_squares,black_check_squares
         
         
@@ -115,13 +122,11 @@ class Board:
                          self.selected_piece = clicked_square.piece
                          
 
-              
-
         def draw(self, display):
             if self.selected_piece is not None:
                 self.get_square_from_pos(self.selected_piece.pos).highlight = True
                 square1,_,_=self.selected_piece.validate_moves(self)
-                #print(square1)
+                print(square1)
                 for square in square1:
                     square.highlight = True
 
