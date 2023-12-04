@@ -101,7 +101,6 @@ class Board:
                x=mx //self.tile_width
                y=my //self.tile_height
                clicked_square=self.get_square_from_pos((x,y))
-               print("the new square is",clicked_square)
                     
                if self.selected_piece is None:
                     if clicked_square.piece is not None:
@@ -113,7 +112,6 @@ class Board:
                          self.turn='black'
                     else:
                          self.turn='white'
-                    #self.turn = 'white' if self.turn == 'black' else 'black'
                     self.selected_piece=None
                     clicked_square=None
 
@@ -126,7 +124,6 @@ class Board:
             if self.selected_piece is not None:
                 self.get_square_from_pos(self.selected_piece.pos).highlight = True
                 square1,_,_=self.selected_piece.validate_moves(self)
-                print(square1)
                 for square in square1:
                     square.highlight = True
 

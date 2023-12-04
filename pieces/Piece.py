@@ -22,7 +22,7 @@ class Piece:
             for move in v_moves:
                 if square==move:
                     check_move=True
-                    
+
             if self.color=='white':
                 if white_check_moves:
                     print("im here",white_check_moves)
@@ -105,14 +105,13 @@ class Piece:
             white_check_moves=[]
             black_check_moves=[]
             for move in self.get_possible_moves(board):
-                #print("imhere the mvoes are",move)
                 for square in move:
                         if self.color=='white':
                             if square.piece!=None:
                                 if square.piece.color=='black':
                                     v_moves.append(square)
                                     if square.piece.notation=='K':
-                                        black_check_moves.append(square)
+                                        black_check_moves.append(move)
                                     break
                                 else:
                                     break
@@ -123,13 +122,12 @@ class Piece:
                                 if square.piece.color=='white':
                                     v_moves.append(square)
                                     if square.piece.notation=='K':
-                                        white_check_moves.append(square)
+                                        white_check_moves.append(move)
                                     break
                                 else:
                                     break
                             else:
                                 v_moves.append(square)
-            #print("this is the moves",v_moves)
             return v_moves,black_check_moves,white_check_moves
 
 
