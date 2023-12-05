@@ -19,7 +19,7 @@ class Board:
                 self.tile_height = height // 8
                 self.selected_piece = None
                 self.turn = 'white'
-                
+                self.check=''
                 
                 self.config = [
                     ['bR', 'bN', 'bB', 'bQ', 'bK', 'bB', 'bN', 'bR'],
@@ -51,6 +51,7 @@ class Board:
                               continue
                         else:
                               black_check_squares.append(black_check_squares1)
+                              self.check='black'
                     elif square.piece.color=='black':
                         v_moves,black_check_squares1,white_check_squares1=square.piece.validate_moves(board)
                         black_moves.append(v_moves)
@@ -58,10 +59,18 @@ class Board:
                              continue
                         else:
                               white_check_squares.append(white_check_squares1)
+                              self.check='white'
             
             return black_moves,white_moves,white_check_squares,black_check_squares
         
         
+     
+
+        def check_mate(self,board):
+             black_moves,white_moves,white_check_squares,black_check_squares=self.get_moves(board)
+             if self.check=='white':
+                  
+               return True
         def generate_squares(self):
             output=[]
             for y in range(8):
