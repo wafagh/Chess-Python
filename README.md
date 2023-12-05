@@ -2,7 +2,6 @@
 
 
 
-
 ## Description
 
 An open-source chess game implemented the whole set of rules such as castling when meeting the necessary conditions 
@@ -51,7 +50,7 @@ and the ability to block a check with other pieces rather than forcing to move t
 
 
 
-Download the folder manually or git clone https://github.com/wafagh/Chess-python.git
+Download the folder manually or git clone https://github.com/wafagh/Chess-Python.git
 
 Open the folder in the IDE of your choice.
 
