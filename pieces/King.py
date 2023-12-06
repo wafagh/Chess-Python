@@ -52,7 +52,7 @@ class King(Piece):
                             if board.get_piece_from_pos((6,7))==None and board.get_piece_from_pos((5,7))==None:
                                 moves9.append(board.get_square_from_pos((6,7)))
                                 p_moves.append(moves9)
-                if not self.check_move(white_check_squares,board,1,5,7):
+                if not self.check_move(white_check_squares,board,2,5,7):
                     if queenside_rook!=None:
                         if queenside_rook.has_moved==False:
                             if [board.get_piece_from_pos((i,7))for i in range(1,4)]==[None,None,None]:
@@ -68,7 +68,7 @@ class King(Piece):
                             if board.get_piece_from_pos((6,0))==None and board.get_piece_from_pos((5,0))==None:
                                 moves9.append(board.get_square_from_pos((6,0)))
                                 p_moves.append(moves9)
-                if not self.check_move(black_check_squares,board,1,5,0):                
+                if not self.check_move(black_check_squares,board,2,5,0):                
                     if queenside_rook!=None:
                         if queenside_rook.has_moved==False:
                             if [board.get_piece_from_pos((i,0))for i in range(1,4)]==[None,None,None]:

@@ -13,20 +13,25 @@ class Piece:
 
 
         def move(self,board,square,force=False):
+            check=False
+            output=[]
+            check,output=board.king_in_check(self)
+            print(output)
             for square1 in board.squares:
                 square1.highlight=False
 
             black_moves,white_moves,white_check_moves,black_check_moves=board.get_moves(board)
             v_moves,b_c_moves,w_c_moves=self.validate_moves(board)
+
             check_move=False
             for move in v_moves:
                 if square==move:
                     check_move=True
 
             if self.color=='white':
-                if white_check_moves:
-                    print("im here",white_check_moves)
-                    if check_move and  [square in white_check_moves]:
+                if check:
+                    print("white in check here",white_check_moves)
+                    if square in output:
                         print("now im here")
                         print(v_moves)
                         prev_square=board.get_square_from_pos((self.pos))
@@ -116,6 +121,7 @@ class Piece:
                                 else:
                                     break
                             else:
+
                                 v_moves.append(square)
                         elif self.color=='black':
                             if square.piece!=None:
