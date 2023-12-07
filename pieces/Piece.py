@@ -109,6 +109,7 @@ class Piece:
             v_moves=[]
             white_check_moves=[]
             black_check_moves=[]
+            temp_move=[]
             for move in self.get_possible_moves(board):
                 for square in move:
                         if self.color=='white':
@@ -116,7 +117,9 @@ class Piece:
                                 if square.piece.color=='black':
                                     v_moves.append(square)
                                     if square.piece.notation=='K':
-                                        black_check_moves.append(move)
+                                        temp_move=move
+                                        temp_move.extend([board.get_square_from_pos(self.pos)])
+                                        black_check_moves.append(temp_move)
                                     break
                                 else:
                                     break
@@ -128,7 +131,9 @@ class Piece:
                                 if square.piece.color=='white':
                                     v_moves.append(square)
                                     if square.piece.notation=='K':
-                                        white_check_moves.append(move)
+                                        temp_move=move
+                                        temp_move.extend([board.get_square_from_pos(self.pos)])
+                                        white_check_moves.append(temp_move)
                                     break
                                 else:
                                     break
