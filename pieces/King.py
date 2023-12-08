@@ -46,47 +46,61 @@ class King(Piece):
             if self.color=='white':
                 kingside_rook=board.get_piece_from_pos((7,7))
                 queenside_rook=board.get_piece_from_pos((0,7))
-                if not self.check_move(white_check_squares,board,4,7,7):
+                if self.check_move(black_moves,board,4,7,7):
                     if kingside_rook!=None:
                         if kingside_rook.has_moved==False:
                             if board.get_piece_from_pos((6,7))==None and board.get_piece_from_pos((5,7))==None:
                                 moves9.append(board.get_square_from_pos((6,7)))
                                 p_moves.append(moves9)
-                if not self.check_move(white_check_squares,board,2,5,7):
+                if self.check_move(black_moves,board,2,5,7):
                     if queenside_rook!=None:
                         if queenside_rook.has_moved==False:
                             if [board.get_piece_from_pos((i,7))for i in range(1,4)]==[None,None,None]:
                                 moves10.append(board.get_square_from_pos((2,7)))
                                 p_moves.append(moves10)
-
+                p_moves=self.possible_moves(p_moves,black_moves)
+                
             elif self.color=='black':
                 kingside_rook=board.get_piece_from_pos((7,0))
                 queenside_rook=board.get_piece_from_pos((0,0))
-                if not self.check_move(black_check_squares,board,4,7,0):
+                if self.check_move(white_moves,board,4,7,0):
                     if kingside_rook!=None:
                         if kingside_rook.has_moved==False:
                             if board.get_piece_from_pos((6,0))==None and board.get_piece_from_pos((5,0))==None:
                                 moves9.append(board.get_square_from_pos((6,0)))
                                 p_moves.append(moves9)
-                if not self.check_move(black_check_squares,board,2,5,0):                
+                if self.check_move(white_moves,board,2,5,0):                
                     if queenside_rook!=None:
                         if queenside_rook.has_moved==False:
                             if [board.get_piece_from_pos((i,0))for i in range(1,4)]==[None,None,None]:
                                 moves10.append(board.get_square_from_pos((2,0)))
                                 p_moves.append(moves10)
+                p_moves=self.possible_moves(p_moves,white_moves)
+        
         
         return p_moves
     
-    
-
+    def possible_moves(self,moves,attacked_moves):
+        flat_moves = [item for sublist in moves for item in sublist]
+        pos_moves=[]
+        impos_moves=[]
+        for move in attacked_moves:
+            for square in flat_moves:
+                if square==move:
+                    impos_moves.append(square)
+        for move in flat_moves:
+            if move not in impos_moves:
+                pos_moves.append(move)
+        
+        return [[el] for el in pos_moves]
+                
 
     def check_move(self,moves,board,i,j,y):
         if len(moves)==0:
-            return False
+            return True
         else:
-            for move in moves:
-                for square in move:
-                    for z in range(i,j):
-                        if board.get_square_from_pos((z,y))==square:
-                            return False
+            for square in moves:
+                for z in range(i,j):
+                    if board.get_square_from_pos((z,y))==square:
+                        return False
             return True

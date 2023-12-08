@@ -166,7 +166,8 @@ class Board:
                if white_check_moves:
                     if len(white_check_moves)>1:
                          if piece.notation!='K':
-                              return False,impos_moves.append("False")
+                              pos_moves.append("False")
+                              return False,impos_moves
                          else:
                               for move in v_moves:
                                    for black_move in black_moves:
@@ -174,7 +175,8 @@ class Board:
                                              impos_moves.append(move)
                               pos_moves = [i for i in v_moves if i not in impos_moves]
                               if len(pos_moves)==0:
-                                   return False,pos_moves.append("white")
+                                   pos_moves.append("white")
+                                   return False,pos_moves
                               else:
                                    return True,pos_moves
                     else:
@@ -193,7 +195,8 @@ class Board:
                                              impos_moves.append(move)
                               pos_moves = [i for i in v_moves if i not in impos_moves]
                          if len(pos_moves)==0:
-                              return False,pos_moves.append("False")
+                              pos_moves.append("False")
+                              return False,pos_moves
                          else:
                               return True,pos_moves
                else:
@@ -202,7 +205,8 @@ class Board:
                if black_check_moves:
                     if len(black_check_moves)>1:
                          if piece.notation!='K':
-                              return False,impos_moves.append("False")
+                              pos_moves.append("False")
+                              return False,pos_moves
                          else:
                               for move in v_moves:
                                    for white_move in white_moves:
@@ -210,7 +214,8 @@ class Board:
                                              impos_moves.append(move)
                               pos_moves = [i for i in v_moves if i not in impos_moves]
                               if len(pos_moves)==0:
-                                   return False,pos_moves.append("black")
+                                   pos_moves.append("black")
+                                   return False,pos_moves
                               else:
                                    return True,pos_moves
                     else:
@@ -229,7 +234,8 @@ class Board:
                                              impos_moves.append(move)
                          pos_moves = [i for i in v_moves if i not in impos_moves]
                          if len(pos_moves)==0:
-                              return False,pos_moves.append("False")
+                              pos_moves.append("False")
+                              return False,pos_moves
                          else:
                               return True,pos_moves  
                else:
