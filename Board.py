@@ -161,82 +161,53 @@ class Board:
           black_moves,white_moves,white_check_moves,black_check_moves=self.get_moves(self)
           impos_moves=[]
           pos_moves=[]
-          v_moves,b_c_moves,w_c_moves=piece.validate_moves(self)
+          color_check_moves=[]
+          color_moves=[]
+          v_moves,_,_=piece.validate_moves(self)
+          
           if piece.color=='white':
-               if white_check_moves:
-                    if len(white_check_moves)>1:
-                         if piece.notation!='K':
-                              pos_moves.append("False")
-                              return False,impos_moves
-                         else:
-                              for move in v_moves:
-                                   for black_move in black_moves:
-                                        if black_move==move:
-                                             impos_moves.append(move)
-                              pos_moves = [i for i in v_moves if i not in impos_moves]
-                              if len(pos_moves)==0:
-                                   pos_moves.append("white")
-                                   return False,pos_moves
-                              else:
-                                   return True,pos_moves
+               color_check_moves=white_check_moves
+               color_moves=black_moves
+          else:
+               color_check_moves=black_check_moves
+               color_moves=white_moves
+          
+          if len(color_check_moves)!=0:
+               if len(color_check_moves)>1:
+                    if piece.notation!='K':
+                         pos_moves.append("False")
+                         return False,pos_moves
                     else:
-                         if piece.notation!='K':
-                              for move in v_moves:
-                                   for moves in white_check_moves:
-                                        for square1 in moves:
-                                             if move==square1:
-                                                  pos_moves.append(move)
-                                             else:
-                                                  continue
-                         else:
-                              for move in v_moves:
-                                   for black_move in black_moves:
-                                        if black_move==move:
-                                             impos_moves.append(move)
-                              pos_moves = [i for i in v_moves if i not in impos_moves]
+                         for move in v_moves:
+                              for color_move in color_moves:
+                                   if color_move==move:
+                                        impos_moves.append(move)
+                         pos_moves = [i for i in v_moves if i not in impos_moves]
                          if len(pos_moves)==0:
-                              pos_moves.append("False")
+                              pos_moves.append(self.color)
                               return False,pos_moves
                          else:
                               return True,pos_moves
                else:
-                    return True,v_moves  
-          elif piece.color=='black':
-               if black_check_moves:
-                    if len(black_check_moves)>1:
-                         if piece.notation!='K':
-                              pos_moves.append("False")
-                              return False,pos_moves
-                         else:
-                              for move in v_moves:
-                                   for white_move in white_moves:
-                                        if white_move==move:
-                                             impos_moves.append(move)
-                              pos_moves = [i for i in v_moves if i not in impos_moves]
-                              if len(pos_moves)==0:
-                                   pos_moves.append("black")
-                                   return False,pos_moves
-                              else:
-                                   return True,pos_moves
+                    if piece.notation!='K':
+                         for move in v_moves:
+                              for moves in color_check_moves:
+                                   for square1 in moves:
+                                        if move==square1:
+                                             pos_moves.append(move)
+                                        else:
+                                             continue
                     else:
-                         if piece.notation!='K':
-                              for move in v_moves:
-                                   for moves in black_check_moves:
-                                        for square1 in moves:
-                                             if move==square1:
-                                                  pos_moves.append(move)
-                                             else:
-                                                  continue
-                         else:
-                            for move in v_moves:
-                                   for black_move in black_moves:
-                                        if black_move==move:
-                                             impos_moves.append(move)
+                         for move in v_moves:
+                              for color_move in color_moves:
+                                   if color_move==move:
+                                        impos_moves.append(move)
                          pos_moves = [i for i in v_moves if i not in impos_moves]
-                         if len(pos_moves)==0:
-                              pos_moves.append("False")
-                              return False,pos_moves
-                         else:
-                              return True,pos_moves  
-               else:
-                    return True,v_moves          
+                    if len(pos_moves)==0:
+                         pos_moves.append("False")
+                         return False,pos_moves
+                    else:
+                         return True,pos_moves
+          else:
+               return True,v_moves  
+          

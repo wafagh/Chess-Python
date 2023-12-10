@@ -40,9 +40,13 @@ class King(Piece):
             moves8.append(board.get_square_from_pos((self.x-1,self.y-1)))
             p_moves.append(moves8)
         
+        for square in board.squares:
+                if square.piece!=None:
+                    square.piece.guarded=False
+        black_moves,white_moves,white_check_squares,black_check_squares=board.get_moves(board)
+        
         if self.has_moved ==False:
-            black_moves,white_moves,white_check_squares,black_check_squares=board.get_moves(board)
-
+            
             if self.color=='white':
                 kingside_rook=board.get_piece_from_pos((7,7))
                 queenside_rook=board.get_piece_from_pos((0,7))
@@ -58,7 +62,6 @@ class King(Piece):
                             if [board.get_piece_from_pos((i,7))for i in range(1,4)]==[None,None,None]:
                                 moves10.append(board.get_square_from_pos((2,7)))
                                 p_moves.append(moves10)
-                p_moves=self.possible_moves(p_moves,black_moves)
                 
             elif self.color=='black':
                 kingside_rook=board.get_piece_from_pos((7,0))
@@ -75,8 +78,11 @@ class King(Piece):
                             if [board.get_piece_from_pos((i,0))for i in range(1,4)]==[None,None,None]:
                                 moves10.append(board.get_square_from_pos((2,0)))
                                 p_moves.append(moves10)
-                p_moves=self.possible_moves(p_moves,white_moves)
         
+        if self.color=='white':
+            p_moves=self.possible_moves(p_moves,black_moves)
+        else:
+            p_moves=self.possible_moves(p_moves,white_moves)
         
         return p_moves
     
@@ -90,7 +96,12 @@ class King(Piece):
                     impos_moves.append(square)
         for move in flat_moves:
             if move not in impos_moves:
-                pos_moves.append(move)
+                if move.piece!=None:
+                    if move.piece.color!=self.color:
+                        if move.piece.guarded==False:
+                            pos_moves.append(move)
+                else:
+                    pos_moves.append(move)
         
         return [[el] for el in pos_moves]
                 
