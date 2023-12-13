@@ -11,7 +11,9 @@ class Piece:
             self.board=board
             self.guarded=False
             self.pin=False
-
+            self.pin_moves=[]
+            self.pos_moves=[]
+            
         def move(self,board,square,force=False):
             check=False
             output=[]
@@ -20,7 +22,6 @@ class Piece:
             for square1 in board.squares:
                 square1.highlight=False
             if check or force:
-                #print("white in check here",white_check_moves)
                 if square in output or force:
                     print("square",square)
                     print(output)
@@ -48,7 +49,7 @@ class Piece:
             white_check_moves=[]
             black_check_moves=[]
             temp_move=[]
-                  
+            pin_move=[]     
             for move in self.get_possible_moves(board):
                 for square in move:
                         if self.color=='white':
@@ -56,16 +57,25 @@ class Piece:
                                 if square.piece.color=='black':
                                     v_moves.append(square)
                                     if square.piece.notation=='K':
-                                        temp_move=move
+                                        temp_move=move.copy()
                                         temp_move.extend([board.get_square_from_pos(self.pos)])
                                         black_check_moves.append(temp_move)
                                         break
                                     else:
                                         index=move.index(square)
-                                        if move[index+1]!=None:
-                                            if move[index+1].piece.color=='black'and move[index+1].piece.notation=='K':
-                                                square.piece.pin=True
-                                        break
+                                        pin_move=move.copy()
+                                        pin_move.extend([board.get_square_from_pos(self.pos)])
+                                        for i in range(index+1,len(pin_move)):
+                                            if pin_move[i]==None:
+                                                continue
+                                            else:
+                                                if pin_move[i].piece!=None:
+                                                    if pin_move[i].piece.color=='black'and pin_move[i].piece.notation=='K':
+                                                        square.piece.pin=True
+                                                        square.piece.pin_moves=pin_move
+                                                    else:
+                                                        break
+                                    break
                                 else:
                                     square.piece.guarded=True
                                     break
@@ -76,15 +86,24 @@ class Piece:
                                 if square.piece.color=='white':
                                     v_moves.append(square)
                                     if square.piece.notation=='K':
-                                        temp_move=move
+                                        temp_move=move.copy()
                                         temp_move.extend([board.get_square_from_pos(self.pos)])
                                         white_check_moves.append(temp_move)
                                         break
                                     else:
                                         index=move.index(square)
-                                        if move[index+1]!=None:
-                                            if move[index+1].piece.color=='white'and move[index+1].piece.notation=='K':
-                                                square.piece.pin=True
+                                        pin_move=move.copy()
+                                        pin_move.extend([board.get_square_from_pos(self.pos)])
+                                        for i in range(index+1,len(pin_move)):
+                                            if pin_move[i]==None:
+                                                continue
+                                            else:
+                                                if pin_move[i].piece!=None:
+                                                    if pin_move[i].piece.color=='black'and pin_move[i].piece.notation=='K':
+                                                        square.piece.pin=True
+                                                        square.piece.pin_moves=pin_move
+                                                    else:
+                                                        break
                                         break
                                 else:
                                     square.piece.guarded=True

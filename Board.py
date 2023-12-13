@@ -42,10 +42,15 @@ class Board:
             white_check_squares=[]
             for square in board.squares:
                 if square.piece!=None:
+                     square.piece.pin=False
+                     square.pin_moves=[]
+            for square in board.squares:
+                if square.piece!=None:
                     if square.piece.notation=='K':
                          continue
                     if square.piece.color=='white':
                         v_moves,black_check_squares1,white_check_squares1=square.piece.validate_moves(board)
+                        square.piece.pos_moves=v_moves
                         white_moves.extend(v_moves)
                         if len(black_check_squares1)==0:
                               continue
@@ -54,6 +59,7 @@ class Board:
                               
                     elif square.piece.color=='black':
                         v_moves,black_check_squares1,white_check_squares1=square.piece.validate_moves(board)
+                        square.piece.pos_moves=v_moves
                         black_moves.extend(v_moves)
                         if len(white_check_squares1)==0:
                              continue
@@ -106,6 +112,8 @@ class Board:
                x=mx //self.tile_width
                y=my //self.tile_height
                clicked_square=self.get_square_from_pos((x,y))
+               black_moves,white_moves,white_check_moves,black_check_moves=self.get_moves(self)
+
                check=False
                output=[]     
                if self.selected_piece is None:
@@ -175,7 +183,7 @@ class Board:
           if len(color_check_moves)!=0:
                if len(color_check_moves)>1:
                     if piece.notation!='K':
-                         pos_moves.append("False")
+                         pos_moves.append("can only move the king")
                          return False,pos_moves
                     else:
                          for move in v_moves:
@@ -190,24 +198,38 @@ class Board:
                               return True,pos_moves
                else:
                     if piece.notation!='K':
+                         print("im not the king")
                          for move in v_moves:
                               for moves in color_check_moves:
                                    for square1 in moves:
                                         if move==square1:
-                                             pos_moves.append(move)
+                                             if piece.pin:
+                                                 if move in piece.pin_moves: 
+                                                       pos_moves.append(move)
+                                             else:
+                                                  pos_moves.append(move)
                                         else:
                                              continue
                     else:
+                         print("im the king")
                          for move in v_moves:
                               for color_move in color_moves:
                                    if color_move==move:
                                         impos_moves.append(move)
                          pos_moves = [i for i in v_moves if i not in impos_moves]
                     if len(pos_moves)==0:
-                         pos_moves.append("False")
+                         pos_moves.append("im in check cant move this piece"+ str(piece.pin))
                          return False,pos_moves
                     else:
                          return True,pos_moves
           else:
-               return True,v_moves  
+               if piece.pin:
+                    for move in v_moves:
+                         if move in piece.pin_moves:
+                              pos_moves.append(move)
+                    print("im pinned")
+                    return True,pos_moves
+               else:
+                    print("im not pinned")
+                    return True,v_moves  
           
