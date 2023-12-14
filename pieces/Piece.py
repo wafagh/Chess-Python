@@ -63,18 +63,17 @@ class Piece:
                                         break
                                     else:
                                         index=move.index(square)
-                                        pin_move=move.copy()
-                                        pin_move.extend([board.get_square_from_pos(self.pos)])
-                                        for i in range(index+1,len(pin_move)):
-                                            if pin_move[i]==None:
+                                        for i in range(index+1,len(move)):
+                                            if move[i].piece==None:
                                                 continue
                                             else:
-                                                if pin_move[i].piece!=None:
-                                                    if pin_move[i].piece.color=='black'and pin_move[i].piece.notation=='K':
+                                                if move[i].piece!=None:
+                                                    if move[i].piece.color=='black'and move[i].piece.notation=='K':
                                                         square.piece.pin=True
+                                                        pin_move=move.copy()
+                                                        pin_move.extend([board.get_square_from_pos(self.pos)])
                                                         square.piece.pin_moves=pin_move
-                                                    else:
-                                                        break
+                                                    break
                                     break
                                 else:
                                     square.piece.guarded=True
@@ -92,18 +91,18 @@ class Piece:
                                         break
                                     else:
                                         index=move.index(square)
-                                        pin_move=move.copy()
-                                        pin_move.extend([board.get_square_from_pos(self.pos)])
-                                        for i in range(index+1,len(pin_move)):
-                                            if pin_move[i]==None:
+                                        
+                                        for i in range(index+1,len(move)):
+                                            if move[i].piece==None:
                                                 continue
                                             else:
-                                                if pin_move[i].piece!=None:
-                                                    if pin_move[i].piece.color=='black'and pin_move[i].piece.notation=='K':
+                                                if move[i].piece!=None:
+                                                    if move[i].piece.color=='white'and move[i].piece.notation=='K':
                                                         square.piece.pin=True
+                                                        pin_move=move.copy()
+                                                        pin_move.extend([board.get_square_from_pos(self.pos)])
                                                         square.piece.pin_moves=pin_move
-                                                    else:
-                                                        break
+                                                    break
                                         break
                                 else:
                                     square.piece.guarded=True

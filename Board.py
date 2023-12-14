@@ -232,4 +232,37 @@ class Board:
                else:
                     print("im not pinned")
                     return True,v_moves  
-          
+        def checkmate(self):
+               pos_moves_black=[]
+               pos_moves_white=[]
+               for square in self.squares:
+                if square.piece!=None:
+                    if square.piece.color=='white':
+                         _,output=self.king_in_check(square.piece)
+                         if output[0]=='white':
+                              self.check='white'
+                              break
+                         elif output[0]=='black':
+                              self.check='black'
+                              break
+                         elif output[0]=='false':
+                              continue
+                         else:
+                              pos_moves_white.extend(output)
+                    else:
+                         _,output=self.king_in_check(square.piece)
+                         if output[0]=='white':
+                              self.check='white'
+                              break
+                         elif output[0]=='black':
+                              self.check='black'
+                              break
+                         elif output[0]=='false':
+                              continue
+                         else:
+                              pos_moves_black.extend(output)
+                              
+               if len(pos_moves_black)==0:
+                    self.check='white'
+               if len(pos_moves_white)==0:
+                    self.check='black'
