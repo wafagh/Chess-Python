@@ -183,7 +183,7 @@ class Board:
           if len(color_check_moves)!=0:
                if len(color_check_moves)>1:
                     if piece.notation!='K':
-                         pos_moves.append("can only move the king")
+                         pos_moves.append("false")
                          return False,pos_moves
                     else:
                          for move in v_moves:
@@ -198,7 +198,6 @@ class Board:
                               return True,pos_moves
                else:
                     if piece.notation!='K':
-                         print("im not the king")
                          for move in v_moves:
                               for moves in color_check_moves:
                                    for square1 in moves:
@@ -211,14 +210,13 @@ class Board:
                                         else:
                                              continue
                     else:
-                         print("im the king")
                          for move in v_moves:
                               for color_move in color_moves:
                                    if color_move==move:
                                         impos_moves.append(move)
                          pos_moves = [i for i in v_moves if i not in impos_moves]
                     if len(pos_moves)==0:
-                         pos_moves.append("im in check cant move this piece"+ str(piece.pin))
+                         pos_moves.append("false")
                          return False,pos_moves
                     else:
                          return True,pos_moves
@@ -227,10 +225,8 @@ class Board:
                     for move in v_moves:
                          if move in piece.pin_moves:
                               pos_moves.append(move)
-                    print("im pinned")
                     return True,pos_moves
                else:
-                    print("im not pinned")
                     return True,v_moves  
         def checkmate(self):
                pos_moves_black=[]
@@ -239,28 +235,30 @@ class Board:
                 if square.piece!=None:
                     if square.piece.color=='white':
                          _,output=self.king_in_check(square.piece)
-                         if output[0]=='white':
-                              self.check='white'
-                              break
-                         elif output[0]=='black':
-                              self.check='black'
-                              break
-                         elif output[0]=='false':
-                              continue
-                         else:
-                              pos_moves_white.extend(output)
+                         if len(output)!=0:
+                              if output[0]=='white':
+                                   self.check='white'
+                                   break
+                              elif output[0]=='black':
+                                   self.check='black'
+                                   break
+                              elif output[0]=='false':
+                                   continue
+                              else:
+                                   pos_moves_white.extend(output)
                     else:
                          _,output=self.king_in_check(square.piece)
-                         if output[0]=='white':
-                              self.check='white'
-                              break
-                         elif output[0]=='black':
-                              self.check='black'
-                              break
-                         elif output[0]=='false':
-                              continue
-                         else:
-                              pos_moves_black.extend(output)
+                         if len(output)!=0:
+                              if output[0]=='white':
+                                   self.check='white'
+                                   break
+                              elif output[0]=='black':
+                                   self.check='black'
+                                   break
+                              elif output[0]=='false':
+                                   continue
+                              else:
+                                   pos_moves_black.extend(output)
                               
                if len(pos_moves_black)==0:
                     self.check='white'
