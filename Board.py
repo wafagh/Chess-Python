@@ -261,6 +261,6 @@ class Board:
                                    pos_moves_black.extend(output)
                               
                if len(pos_moves_black)==0:
-                    self.check='white'
-               if len(pos_moves_white)==0:
                     self.check='black'
+               if len(pos_moves_white)==0:
+                    self.check='white'
