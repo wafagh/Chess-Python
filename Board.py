@@ -133,9 +133,15 @@ class Board:
                                         clicked_square=None
 
                elif self.selected_piece.color==self.turn and self.selected_piece.move(self, clicked_square):
+                    
+                    
                     if self.turn=='white':
+                         if self.selected_piece.notation=="P" and clicked_square.y==0:
+                              clicked_square.piece=Queen((clicked_square.x,clicked_square.y),"white",self)
                          self.turn='black'
                     else:
+                         if self.selected_piece.notation=="P" and clicked_square.y==7:
+                              clicked_square.piece=Queen((clicked_square.x,clicked_square.y),"black",self)
                          self.turn='white'
                     self.selected_piece=None
                     clicked_square=None
@@ -229,6 +235,7 @@ class Board:
                else:
                     return True,v_moves  
         def checkmate(self):
+               black_moves,white_moves,white_check_moves,black_check_moves=self.get_moves(self)
                pos_moves_black=[]
                pos_moves_white=[]
                for square in self.squares:
@@ -264,3 +271,6 @@ class Board:
                     self.check='black'
                if len(pos_moves_white)==0:
                     self.check='white'
+
+     
+
